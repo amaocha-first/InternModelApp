@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.squareup.picasso.Picasso
 
 class ResultActivity : AppCompatActivity() {
 
@@ -48,7 +49,13 @@ class ResultActivity : AppCompatActivity() {
         listView.setOnItemClickListener {parent, view, position, id ->
 
             val imageView = ImageView(this)
-            imageView.setImageResource(R.drawable.wordcloud_image)
+
+            Picasso.get()
+                //いらすとやの画像URL
+                .load("https://1.bp.blogspot.com/-kwMHBpDRC98/WMfCOCDhmCI/AAAAAAABClk/0YhKPlx69H8akEluJniMmVV-RoJCRtPvACLcB/s800/onsei_ninshiki_smartphone.png")
+                .resize(300, 300) //表示サイズ指定
+                .centerCrop() //resizeで指定した範囲になるよう中央から切り出し
+                .into(imageView) //imageViewに流し込み
 
             AlertDialog.Builder(this)
                 .setTitle("タイトル")
