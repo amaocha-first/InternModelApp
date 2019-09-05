@@ -15,11 +15,17 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.example.modeltestapp.entities.AddressEntity
+import com.example.modeltestapp.entities.PropertyEntity
+import com.example.modeltestapp.entities.ResultEntity
 import com.example.modeltestapp.entities.SearchInputEntity
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 
 class ResultActivity : AppCompatActivity() {
+
+    //APIから取得できた結果
+    private var result: ResultEntity? = null
 
     //データを用意
     val names = listOf("¥97,000", "¥56,000", "¥45,000", "¥89,000", "¥110,000")
@@ -41,7 +47,36 @@ class ResultActivity : AppCompatActivity() {
         Log.d("デシリアライズ", "${input}")
 
         //TODO: - 画面が立ち上がるときにAPI通信を始める（通信が終わるまではindicatorをだす）
+        //正常に値が返ってきたと想定して、、
+        val entity = PropertyEntity(
+            price = "90000",
+            addressEntity = AddressEntity(prefecture = "東京都", city = "渋谷区", tyome = "神宮前1-2-12"),
+            nearestStation = "JR線渋谷駅",
+            distance = "徒歩15分"
+        )
+        val entity2 = PropertyEntity(
+            price = "56000",
+            addressEntity = AddressEntity(prefecture = "東京都", city = "千代田区", tyome = "神田駿河台2-1-34"),
+            nearestStation = "JR線御茶ノ水駅",
+            distance = "徒歩5分"
+        )
 
+        val entity3 = PropertyEntity(
+            price = "78000",
+            addressEntity = AddressEntity(prefecture = "東京都", city = "調布市", tyome = "菊野台3-3-23"),
+            nearestStation = "JR線調布駅",
+            distance = "徒歩10分"
+        )
+
+        val entity4 = PropertyEntity(
+            price = "102000",
+            addressEntity = AddressEntity(prefecture = "東京都", city = "港区", tyome = "麻布十番1-1-13"),
+            nearestStation = "JR線麻布十番駅",
+            distance = "徒歩10分"
+        )
+
+        val properties = arrayListOf(entity, entity2, entity3, entity4)
+        this.result = ResultEntity(id = "0", properties = properties)
         //APIデータにサムネ画像がないので、localの適当な画像を表示
         this.names.forEach { images.add(R.drawable.test_image) }
         setupListView()
@@ -63,7 +98,7 @@ class ResultActivity : AppCompatActivity() {
             Picasso.get()
                 //画像URL
                 .load("https://1.bp.blogspot.com/-kwMHBpDRC98/WMfCOCDhmCI/AAAAAAABClk/0YhKPlx69H8akEluJniMmVV-RoJCRtPvACLcB/s800/onsei_ninshiki_smartphone.png")
-                .resize(300, 300) //表示サイズ指定
+                .resize(600, 600) //表示サイズ指定
                 .centerCrop() //resizeで指定した範囲になるよう中央から切り出し
                 .into(imageView) //imageViewに流し込み
 
