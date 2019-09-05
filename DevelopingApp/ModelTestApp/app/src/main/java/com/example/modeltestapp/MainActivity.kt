@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         val searchBtn = findViewById<Button>(R.id.button)
         searchBtn.setOnClickListener {
             val intent = Intent(this, ResultActivity::class.java)
+            //TODO: - ここでSearchInputEntityに実際の値を入れて、ResultActivityに渡す
+            //hint: JSONシリアライズして、intent.putExtra()
             startActivity(intent)
         }
     }

@@ -33,12 +33,17 @@ class ResultActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "検索結果"
 
+        //TODO: - API通信する前にMainActivityから渡されたObjectをデシリアライズする
+
         //TODO: - 画面が立ち上がるときにAPI通信を始める（通信が終わるまではindicatorをだす）
 
-        //imagesをセット
+        //APIデータにサムネ画像がないので、localの適当な画像を表示
         this.names.forEach { images.add(R.drawable.test_image) }
-        Log.d("イメジ", "${this.images}")
+        setupListView()
+    }
 
+    //カスタムListViewのセットアップ
+    private fun setupListView() {
         val property = List(names.size) { i -> PropertyData(price = names[i], imageId = this.images[i])}
 
         val adapter = PropertyListAdapter(this, properties = property)
@@ -51,7 +56,7 @@ class ResultActivity : AppCompatActivity() {
             val imageView = ImageView(this)
 
             Picasso.get()
-                //いらすとやの画像URL
+                //画像URL
                 .load("https://1.bp.blogspot.com/-kwMHBpDRC98/WMfCOCDhmCI/AAAAAAABClk/0YhKPlx69H8akEluJniMmVV-RoJCRtPvACLcB/s800/onsei_ninshiki_smartphone.png")
                 .resize(300, 300) //表示サイズ指定
                 .centerCrop() //resizeで指定した範囲になるよう中央から切り出し
@@ -69,6 +74,7 @@ class ResultActivity : AppCompatActivity() {
     //ViewHolderの定義
     data class ViewHolder(val priceTextView: TextView, val propertyImageView: ImageView)
 
+    //独自アダプターの定義
     class PropertyListAdapter(context: Context, properties: List<PropertyData>): ArrayAdapter<PropertyData>(context, 0, properties) {
         private val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -101,8 +107,5 @@ class ResultActivity : AppCompatActivity() {
         }
         return true
     }
-
-    //アラートダイアログ（wordcloud、ヒストグラムなどの画像表示）
-
 
 }
