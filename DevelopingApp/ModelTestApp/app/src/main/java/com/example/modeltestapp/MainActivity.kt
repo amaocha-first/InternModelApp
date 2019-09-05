@@ -6,25 +6,44 @@ import android.os.Bundle
 import android.widget.*
 import com.example.modeltestapp.entities.SearchInputEntity
 import com.google.gson.Gson
+import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
 
-    private val priceList = listOf<String>("5万以下", "6万", "7万", "8万", "9万", "10万", "15万以上")
-    private val priceDic = hashMapOf("" to "")
+    //Input用データの定義
+    private val priceList = listOf("5万以下", "6万", "7万", "8万", "9万", "10万", "15万以上")
+    private val priceHashMap = hashMapOf(
+        priceList[0] to 50000,
+        priceList[1] to 60000,
+        priceList[2] to 70000,
+        priceList[3] to 80000,
+        priceList[4] to 90000,
+        priceList[5] to 100000,
+        priceList[6] to 150000
+    )
+
+    //Inputコンポーネントの定義
+    private var minSpinner: Spinner? = null
+    private var maxSpinner: Spinner? = null
+    private var areaEditText: EditText? = null
+    private var freeWordEditText: EditText? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        areaEditText = findViewById<EditText>(R.id.area_edit_text)
+        freeWordEditText = findViewById<EditText>(R.id.free_word_edit_text)
         setupSearchBtn()
         setupSpinner()
     }
 
     private fun setupSpinner() {
-        val minSpinner: Spinner = findViewById<Spinner>(R.id.min_spinner)
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, priceList)
-        minSpinner.adapter = adapter
-
-        val maxSpinner: Spinner = findViewById<Spinner>(R.id.max_spinner)
-        maxSpinner.adapter = adapter
+        minSpinner = findViewById<Spinner>(R.id.min_spinner)
+        maxSpinner = findViewById<Spinner>(R.id.max_spinner)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, priceList)
+        minSpinner!!.adapter = adapter
+        maxSpinner!!.adapter = adapter
     }
 
     //検索ボタンを押したら次画面へ
@@ -40,8 +59,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Inputオブジェクトの生成
     private fun createObject(): String {
-        val input = SearchInputEntity(minPrice = 30000, maxPrice = 60000, areaText = "", keyword = "")
+        val input = SearchInputEntity(
+            minPrice = priceHashMap["${minSpinner!!.selectedItem}"]!!,
+            maxPrice = priceHashMap["${maxSpinner!!.selectedItem}"]!!,
+            areaText = areaEditText!!.text.toString(),
+            keyword = freeWordEditText!!.text.toString()
+        )
         return Gson().toJson(input)
     }
 }
