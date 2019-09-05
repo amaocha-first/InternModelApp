@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 
 class ResultActivity : AppCompatActivity() {
 
@@ -42,6 +43,19 @@ class ResultActivity : AppCompatActivity() {
         val adapter = PropertyListAdapter(this, properties = property)
         val listView = findViewById<ListView>(R.id.result_list_view)
         listView.adapter = adapter
+
+        // 項目をタップしたときの処理
+        listView.setOnItemClickListener {parent, view, position, id ->
+
+            val imageView = ImageView(this)
+            imageView.setImageResource(R.drawable.wordcloud_image)
+
+            AlertDialog.Builder(this)
+                .setTitle("タイトル")
+                .setView(imageView)
+                .setPositiveButton("ok"){ dialog, which ->
+                }.show()
+        }
     }
 
 
@@ -80,4 +94,8 @@ class ResultActivity : AppCompatActivity() {
         }
         return true
     }
+
+    //アラートダイアログ（wordcloud、ヒストグラムなどの画像表示）
+
+
 }
