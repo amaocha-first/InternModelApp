@@ -31,7 +31,7 @@ class ResultActivity : AppCompatActivity() {
     val names = listOf("¥97,000", "¥56,000", "¥45,000", "¥89,000", "¥110,000")
     val images = ArrayList<Int>()
 
-    data class PropertyData(val price: String, val imageId: Int)
+    data class PropertyData(val price: String, val imageUrl: String, val address: String, val nearestStation: String, val distance: String)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,12 +50,14 @@ class ResultActivity : AppCompatActivity() {
         //正常に値が返ってきたと想定して、、
         val entity = PropertyEntity(
             price = "90000",
+            imageUrl = "https://1.bp.blogspot.com/-kwMHBpDRC98/WMfCOCDhmCI/AAAAAAABClk/0YhKPlx69H8akEluJniMmVV-RoJCRtPvACLcB/s800/onsei_ninshiki_smartphone.png",
             addressEntity = AddressEntity(prefecture = "東京都", city = "渋谷区", tyome = "神宮前1-2-12"),
             nearestStation = "JR線渋谷駅",
             distance = "徒歩15分"
         )
         val entity2 = PropertyEntity(
             price = "56000",
+            imageUrl = "https://1.bp.blogspot.com/-kwMHBpDRC98/WMfCOCDhmCI/AAAAAAABClk/0YhKPlx69H8akEluJniMmVV-RoJCRtPvACLcB/s800/onsei_ninshiki_smartphone.png",
             addressEntity = AddressEntity(prefecture = "東京都", city = "千代田区", tyome = "神田駿河台2-1-34"),
             nearestStation = "JR線御茶ノ水駅",
             distance = "徒歩5分"
@@ -63,6 +65,7 @@ class ResultActivity : AppCompatActivity() {
 
         val entity3 = PropertyEntity(
             price = "78000",
+            imageUrl = "",
             addressEntity = AddressEntity(prefecture = "東京都", city = "調布市", tyome = "菊野台3-3-23"),
             nearestStation = "JR線調布駅",
             distance = "徒歩10分"
@@ -70,6 +73,7 @@ class ResultActivity : AppCompatActivity() {
 
         val entity4 = PropertyEntity(
             price = "102000",
+            imageUrl = "",
             addressEntity = AddressEntity(prefecture = "東京都", city = "港区", tyome = "麻布十番1-1-13"),
             nearestStation = "JR線麻布十番駅",
             distance = "徒歩10分"
@@ -84,7 +88,8 @@ class ResultActivity : AppCompatActivity() {
 
     //カスタムListViewのセットアップ
     private fun setupListView() {
-        val property = List(names.size) { i -> PropertyData(price = names[i], imageId = this.images[i])}
+        val list = result!!.properties
+        val property = List(result!!.properties.size) { i -> PropertyData(price = list[i].price, imageUrl = list[i].imageUrl, address = list[i].addressEntity.address, nearestStation = list[i].nearestStation, distance = list[i].distance)}
 
         val adapter = PropertyListAdapter(this, properties = property)
         val listView = findViewById<ListView>(R.id.result_list_view)
@@ -97,7 +102,7 @@ class ResultActivity : AppCompatActivity() {
 
             Picasso.get()
                 //画像URL
-                .load("https://1.bp.blogspot.com/-kwMHBpDRC98/WMfCOCDhmCI/AAAAAAABClk/0YhKPlx69H8akEluJniMmVV-RoJCRtPvACLcB/s800/onsei_ninshiki_smartphone.png")
+                .load(this.result!!.properties[position].imageUrl)
                 .resize(600, 600) //表示サイズ指定
                 .centerCrop() //resizeで指定した範囲になるよう中央から切り出し
                 .into(imageView) //imageViewに流し込み
@@ -133,8 +138,8 @@ class ResultActivity : AppCompatActivity() {
             }
 
             val property = getItem(position) as PropertyData
-            holder.priceTextView.text = property.price
-            holder.propertyImageView.setImageBitmap(BitmapFactory.decodeResource(context.resources, property.imageId))
+            holder.priceTextView.text = "¥" + property.price
+            holder.propertyImageView.setImageBitmap(BitmapFactory.decodeResource(context.resources, R.drawable.test_image))
             return view!!
         }
     }
