@@ -18,7 +18,7 @@ import android.widget.TextView
 class ResultActivity : AppCompatActivity() {
 
     //データを用意
-    val names = listOf("あじさい", "蓮", "ネモフィラ", "バラ", "ふじ")
+    val names = listOf("¥97,000", "¥56,000", "¥45,000", "¥89,000", "¥110,000")
     val images = ArrayList<Int>()
 
     data class PropertyData(val price: String, val imageId: Int)
