@@ -15,6 +15,8 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.example.modeltestapp.entities.SearchInputEntity
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 
 class ResultActivity : AppCompatActivity() {
@@ -33,7 +35,10 @@ class ResultActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "検索結果"
 
-        //TODO: - API通信する前にMainActivityから渡されたObjectをデシリアライズする
+        //API通信する前にMainActivityから渡されたObjectをデシリアライズする
+        val json = intent.extras!!.getString("INPUT_KEY")
+        val input = Gson().fromJson<SearchInputEntity>(json, SearchInputEntity::class.java)
+        Log.d("デシリアライズ", "${input}")
 
         //TODO: - 画面が立ち上がるときにAPI通信を始める（通信が終わるまではindicatorをだす）
 

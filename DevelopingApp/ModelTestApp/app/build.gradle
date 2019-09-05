@@ -36,10 +36,6 @@ dependencies {
     //画像キャッシュ用picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    //API
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_ver"
-    compile "com.squareup.moshi:moshi:$moshi_ver"
-    compile "com.squareup.moshi:moshi-kotlin:$moshi_ver"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_ver"
-    implementation "com.squareup.okhttp3:okhttp:$okhttp3_ver"
+    //シリアライズGSon
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
